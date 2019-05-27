@@ -22,4 +22,3 @@ Nodejs Restful API with jwt and mongodb Connection using mongoose
         - email
         - password
         * profile
-        * devices
