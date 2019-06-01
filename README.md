@@ -11,7 +11,7 @@ First you need to have an mongodb installation. You can refer here to install an
 * [Install MongoDB on Linux](https://hevodata.com/blog/install-mongodb-on-ubuntu/ "MongoDB Linux Installation")
 
 Then install nodejs
-- ![Nodejs Installation](https://nodejs.org/en/download/)
+- [Nodejs Installation](https://nodejs.org/en/download/)
 
 After that you'll have access to npm (Nodejs Package Manager).
 Now you can install additionnal dependencies
