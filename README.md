@@ -38,10 +38,14 @@ node server.js
         * Retrieve Informations about users
         - /users
         - /users/:id
+
         * Register informations or Login
         { post; }
         - /api/auth/register
         - /api/auth/login
+
+        * Sign into user account
+        { get; }
         - /api/auth/me
 
 #### Models
@@ -51,3 +55,9 @@ node server.js
         - email
         - password
         * profile
+
+##### Usefull Tips
+
+* [A guide for adding JWT token-based authentication](https://medium.com/dev-bits/a-guide-for-adding-jwt-token-based-authentication-to-your-single-page-nodejs-applications-c403f7cf04f4)
+
+* [Understanding JWT in Nodejs](https://www.sitepoint.com/using-json-web-tokens-node-js/)
