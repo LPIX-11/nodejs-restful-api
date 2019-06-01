@@ -13,13 +13,23 @@ First you need to have an mongodb installation. You can refer here to install an
 Then install nodejs
 - ![Nodejs Installation](https://nodejs.org/en/download/)
 
-After that you'll have access to npm (Nodejs Package Manager)
+After that you'll have access to npm (Nodejs Package Manager).
+Now you can install additionnal dependencies
+
 ```shell
+# Go inside the project
+cd nodejs-restfull-api
+
 # Install all dependencies
 npm install
 
 # For nodejs live reload when file changes in the directory are detected install nodemon
 npm install -g nodemon
+
+# You start the api by hitting
+nodemon
+# Or
+node server.js
 ```
 
 ### Structure
