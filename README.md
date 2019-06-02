@@ -18,7 +18,7 @@ Now you can install additionnal dependencies
 
 ```shell
 # Go inside the project
-cd nodejs-restfull-api
+cd nodejs-restful-api
 
 # Install all dependencies
 npm install
