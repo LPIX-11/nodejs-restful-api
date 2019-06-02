@@ -30,7 +30,7 @@ router.post('/register', function (req, res) {
         },
         function (err, user) {
 
-            if (err) return res.status(500).send("Problem registering the user.")
+            if (err) return res.status(500).send("Problem registering the user.");
 
             // Creating token
             var token = jwt.sign({
@@ -134,4 +134,4 @@ router.post('/login', function (req, res) {
 
 
 // Exporting module
-module.exports = router
+module.exports = router;
