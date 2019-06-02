@@ -4,7 +4,7 @@
 Nodejs Restful API with jwt and mongodb Connection using mongoose
 
 ### Set Up Environment
-First you need to have an mongodb installation. You can refer here to install an instance:
+First you need to have a mongodb installation. You can refer here to install an instance:
 
 * [Install MongoDB on Windows](https://medium.com/@LondonAppBrewery/how-to-download-install-mongodb-on-windows-4ee4b3493514)
 * [Install MongoDB on Mac OS](https://treehouse.github.io/installation-guides/mac/mongo-mac.html "MongoDB Mac OS Installation")
