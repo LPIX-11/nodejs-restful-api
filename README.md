@@ -44,7 +44,7 @@ node server.js
         - /api/auth/register
         - /api/auth/login
 
-        * Sign into user account
+        * Go to user profile
         { get; }
         - /api/auth/me
 
