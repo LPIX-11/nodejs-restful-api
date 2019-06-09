@@ -2,14 +2,14 @@
 
 
 // Dependencies
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var bodyParser = require('body-parser');
+var bodyParser = require("body-parser");
 
 // JWT Dependencies
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
-var config = require('../config');
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcryptjs");
+var config = require("../config");
 
 // Router
 router.use(bodyParser.urlencoded({
@@ -17,9 +17,9 @@ router.use(bodyParser.urlencoded({
 }));
 router.use(bodyParser.json());
 
-var User = require('../user/User');
+var User = require("../user/User");
 
-router.post('/register', function (req, res) {
+router.post("/register", function (req, res) {
 
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
     User.create({
@@ -49,19 +49,19 @@ router.post('/register', function (req, res) {
 });
 
 // User section
-router.get('/me', function (req, res) {
+router.get("/me", function (req, res) {
 
-    var token = req.headers['x-access-token'];
+    var token = req.headers["x-access-token"];
     if (!token) return res.status(401).send({
         auth: false,
-        message: 'No token provided.'
+        message: "No token provided."
     });
 
     jwt.verify(token, config.secret, function (err, decoded) {
 
         if (err) return res.status(500).send({
             auth: false,
-            message: 'Failed to authenticate token.'
+            message: "Failed to authenticate token."
         });
 
         // Send Encoded user
@@ -98,7 +98,7 @@ router.get('/me', function (req, res) {
 
 // Login
 
-router.post('/login', function (req, res) {
+router.post("/login", function (req, res) {
 
     User.findOne({
         email: req.body.email

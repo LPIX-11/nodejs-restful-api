@@ -1,7 +1,6 @@
-
 // configuration
 module.exports = {
 
-'secret': 'supersecret'
+    "secret": "supersecret"
 
 };
