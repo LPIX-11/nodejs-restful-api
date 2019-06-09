@@ -30,7 +30,9 @@ router.post("/register", function (req, res) {
         },
         function (err, user) {
 
-            if (err) return res.status(500).send("Problem registering the user.");
+            if (err) {
+                return res.status(500).send("Problem registering the user.");
+            }
 
             // Creating token
             var token = jwt.sign({
@@ -59,11 +61,12 @@ router.get("/me", function (req, res) {
 
     jwt.verify(token, config.secret, function (err, decoded) {
 
-        if (err) return res.status(500).send({
-            auth: false,
-            message: "Failed to authenticate token."
-        });
-
+        if (err) {
+            return res.status(500).send({
+                auth: false,
+                message: "Failed to authenticate token."
+            });
+        }
         // Send Encoded user
 
         // res.status(200).send(decoded);
@@ -72,7 +75,9 @@ router.get("/me", function (req, res) {
 
         /*User.findById(decoded.id, function(err, user) {
 
-        if (err) return res.status(500).send("There was problem finding the user.");
+        if (err) {
+            return res.status(500).send("There was problem finding the user.");
+        }
 
         res.status(200).send(user);
 
@@ -86,7 +91,9 @@ router.get("/me", function (req, res) {
             password: 0
         }, function (err, user) {
 
-            if (err) return res.status(500).send("There was problem finding the user.");
+            if (err) {
+                return res.status(500).send("There was problem finding the user.");
+            }
 
             res.status(200).send(user);
 
@@ -104,9 +111,17 @@ router.post("/login", function (req, res) {
         email: req.body.email
     }, function (err, user) {
 
-        if (err) return res.status(500).send("Error on the server.");
-        if (!user) return res.status(404).send("No user found.");
-        if (!req.body.password) res.status(500).send("No password entered.");
+        if (err) {
+            return res.status(500).send("Error on the server.");
+        }
+
+        if (!user) {
+            return res.status(404).send("No user found.");
+        }
+
+        if (!req.body.password) {
+            res.status(500).send("No password entered.");
+        }
 
         var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
