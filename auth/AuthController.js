@@ -54,10 +54,12 @@ router.post("/register", function (req, res) {
 router.get("/me", function (req, res) {
 
     var token = req.headers["x-access-token"];
-    if (!token) return res.status(401).send({
-        auth: false,
-        message: "No token provided."
-    });
+    if (!token) {
+        return res.status(401).send({
+            auth: false,
+            message: "No token provided."
+        });
+    }
 
     jwt.verify(token, config.secret, function (err, decoded) {
 
@@ -125,10 +127,12 @@ router.post("/login", function (req, res) {
 
         var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-        if (!passwordIsValid) return res.status(401).send({
-            auth: false,
-            token: null
-        });
+        if (!passwordIsValid) {
+            return res.status(401).send({
+                auth: false,
+                token: null
+            });
+        }
 
         var token = jwt.sign({
             id: user._id
