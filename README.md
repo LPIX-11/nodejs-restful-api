@@ -1,5 +1,7 @@
 # Nodejs - Restful Api
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b8f5d81d53374fafa1fcdf4d8f28807e)](https://app.codacy.com/app/LPIX-11/nodejs-restful-api?utm_source=github.com&utm_medium=referral&utm_content=LPIX-11/nodejs-restful-api&utm_campaign=Badge_Grade_Settings)
+
 ## Overview
 
 ![RESTful API design with Node.js](https://cdn-images-1.medium.com/max/2000/1*jjYC9tuf4C3HkHCP5PcKTA.jpeg "RESTful API design with Node.js")
