@@ -9,13 +9,13 @@ Nodejs Restful API with jwt and mongodb Connection using mongoose.
 
 First you need to have a mongodb installation. You can refer here to install an instance:
 
-*  [Install MongoDB on Windows](https://medium.com/@LondonAppBrewery/how-to-download-install-mongodb-on-windows-4ee4b3493514)
-*  [Install MongoDB on Mac OS](https://treehouse.github.io/installation-guides/mac/mongo-mac.html "MongoDB Mac OS Installation")
-*  [Install MongoDB on Linux](https://hevodata.com/blog/install-mongodb-on-ubuntu/ "MongoDB Linux Installation")
+> [Install MongoDB on Windows](https://medium.com/@LondonAppBrewery/how-to-download-install-mongodb-on-windows-4ee4b3493514)
+> [Install MongoDB on Mac OS](https://treehouse.github.io/installation-guides/mac/mongo-mac.html "MongoDB Mac OS Installation")
+> [Install MongoDB on Linux](https://hevodata.com/blog/install-mongodb-on-ubuntu/ "MongoDB Linux Installation")
 
 Then install nodejs
 
-*  [Nodejs Installation](https://nodejs.org/en/download/)
+> [Nodejs Installation](https://nodejs.org/en/download/)
 
 After that you'll have access to npm (Nodejs Package Manager).
 Now you can install additionnal dependencies
@@ -69,5 +69,5 @@ node server.js
 
 ##### Usefull Tips
 
-*  [A guide for adding JWT token-based authentication](https://medium.com/dev-bits/a-guide-for-adding-jwt-token-based-authentication-to-your-single-page-nodejs-applications-c403f7cf04f4)
-*  [Understanding JWT in Nodejs](https://www.sitepoint.com/using-json-web-tokens-node-js/)
+> [A guide for adding JWT token-based authentication](https://medium.com/dev-bits/a-guide-for-adding-jwt-token-based-authentication-to-your-single-page-nodejs-applications-c403f7cf04f4)
+> [Understanding JWT in Nodejs](https://www.sitepoint.com/using-json-web-tokens-node-js/)
