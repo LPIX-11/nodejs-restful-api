@@ -2,14 +2,14 @@
 
 
 // Dependencies
-var express = require('express');
+var express = require("express");
 var router = express.Router();
-var bodyParser = require('body-parser');
+var bodyParser = require("body-parser");
 
 // JWT Dependencies
-var jwt = require('jsonwebtoken');
-var bcrypt = require('bcryptjs');
-var config = require('../config');
+var jwt = require("jsonwebtoken");
+var bcrypt = require("bcryptjs");
+var config = require("../config");
 
 // Router
 router.use(bodyParser.urlencoded({
@@ -17,7 +17,7 @@ router.use(bodyParser.urlencoded({
 }));
 router.use(bodyParser.json());
 
-var User = require('../user/User');
+var User = require("../user/User");
 
 // Register new user
 router.post('/register', function (req, res) {
@@ -31,7 +31,9 @@ router.post('/register', function (req, res) {
         },
         function (err, user) {
 
-            if (err) return res.status(500).send("Problem registering the user.");
+            if (err) {
+                return res.status(500).send("Problem registering the user.");
+            }
 
             // Creating token
             var token = jwt.sign({
@@ -50,21 +52,24 @@ router.post('/register', function (req, res) {
 });
 
 // User section
-router.get('/me', function (req, res) {
+router.get("/me", function (req, res) {
 
-    var token = req.headers['x-access-token'];
-    if (!token) return res.status(401).send({
-        auth: false,
-        message: 'No token provided.'
-    });
+    var token = req.headers["x-access-token"];
+    if (!token) {
+        return res.status(401).send({
+            auth: false,
+            message: "No token provided."
+        });
+    }
 
     jwt.verify(token, config.secret, function (err, decoded) {
 
-        if (err) return res.status(500).send({
-            auth: false,
-            message: 'Failed to authenticate token.'
-        });
-
+        if (err) {
+            return res.status(500).send({
+                auth: false,
+                message: "Failed to authenticate token."
+            });
+        }
         // Send Encoded user
 
         // res.status(200).send(decoded);
@@ -73,7 +78,9 @@ router.get('/me', function (req, res) {
 
         /*User.findById(decoded.id, function(err, user) {
 
-        if (err) return res.status(500).send("There was problem finding the user.");
+        if (err) {
+            return res.status(500).send("There was problem finding the user.");
+        }
 
         res.status(200).send(user);
 
@@ -87,7 +94,9 @@ router.get('/me', function (req, res) {
             password: 0
         }, function (err, user) {
 
-            if (err) return res.status(500).send("There was problem finding the user.");
+            if (err) {
+                return res.status(500).send("There was problem finding the user.");
+            }
 
             res.status(200).send(user);
 
@@ -99,22 +108,32 @@ router.get('/me', function (req, res) {
 
 // Login
 
-router.post('/login', function (req, res) {
+router.post("/login", function (req, res) {
 
     User.findOne({
         email: req.body.email
     }, function (err, user) {
 
-        if (err) return res.status(500).send("Error on the server.");
-        if (!user) return res.status(404).send("No user found.");
-        if (!req.body.password) res.status(500).send("No password entered.");
+        if (err) {
+            return res.status(500).send("Error on the server.");
+        }
+
+        if (!user) {
+            return res.status(404).send("No user found.");
+        }
+
+        if (!req.body.password) {
+            res.status(500).send("No password entered.");
+        }
 
         var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
-        if (!passwordIsValid) return res.status(401).send({
-            auth: false,
-            token: null
-        });
+        if (!passwordIsValid) {
+            return res.status(401).send({
+                auth: false,
+                token: null
+            });
+        }
 
         var token = jwt.sign({
             id: user._id

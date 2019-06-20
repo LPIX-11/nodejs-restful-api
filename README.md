@@ -1,9 +1,12 @@
 # Nodejs - Restful Api
+
 ## Overview
+
 ![RESTful API design with Node.js](https://cdn-images-1.medium.com/max/2000/1*jjYC9tuf4C3HkHCP5PcKTA.jpeg "RESTful API design with Node.js")
-Nodejs Restful API with jwt and mongodb Connection using mongoose
+Nodejs Restful API with jwt and mongodb Connection using mongoose.
 
 ### Set Up Environment
+
 First you need to have a mongodb installation. You can refer here to install an instance:
 
 * [Install MongoDB on Windows](https://medium.com/@LondonAppBrewery/how-to-download-install-mongodb-on-windows-4ee4b3493514)
@@ -11,6 +14,7 @@ First you need to have a mongodb installation. You can refer here to install an 
 * [Install MongoDB on Linux](https://hevodata.com/blog/install-mongodb-on-ubuntu/ "MongoDB Linux Installation")
 
 Then install nodejs
+
 * [Nodejs Installation](https://nodejs.org/en/download/)
 
 After that you'll have access to npm (Nodejs Package Manager).
@@ -18,7 +22,7 @@ Now you can install additionnal dependencies
 
 ```shell
 # Go inside the project
-cd nodejs-restfull-api
+cd nodejs-restful-api
 
 # Install all dependencies
 npm install
@@ -33,6 +37,7 @@ node server.js
 ```
 
 ### Structure
+
     Routes
         { get; }
         * Retrieve Informations about users
@@ -44,11 +49,12 @@ node server.js
         - /api/auth/register
         - /api/auth/login
 
-        * Sign into user account
+        * Go to user profile
         { get; }
         - /api/auth/me
 
 #### Models
+
     User
         -_id [Generated]
         - name
