@@ -19,6 +19,7 @@ router.use(bodyParser.json());
 
 var User = require('../user/User');
 
+// Register new user
 router.post('/register', function (req, res) {
 
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
@@ -131,6 +132,62 @@ router.post('/login', function (req, res) {
 });
 
 // Update User Informations
+router.patch('/edit', function (req, res) {
+    var token = req.headers['x-access-token'];
+
+    jwt.verify(token, config.secret, function (err, decoded) {
+        if (!token) return res.status(401).send({
+            auth: false,
+            message: 'No token provided.'
+        });
+
+        if (err) return res.status(500).send({
+            auth: false,
+            message: 'Failed to authenticate token.'
+        });
+
+        if (!req.body.email) {
+            res.status(401).send({
+                message: "Unauthorized to edit without email"
+            });
+        } else {
+            token = jwt.sign({
+                id: decoded.id
+            }, config.secret, {
+                expiresIn: 86400 // renew token that will expires in 24 hours
+            });
+
+            if (req.body.password) {
+                var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+                req.body.password = hashedPassword;
+            }
+
+            User.updateOne({
+                _id: decoded.id
+            }, {
+                $set: req.body
+            }, function (err) {
+                if (err) {
+                    res.send(500).send({
+                        message: "Could not update user' informations"
+                    });
+                } else {
+                    res.status(200).send({
+                        token: token,
+                        email: req.body.email
+                    });
+                }
+            });
+
+        }
+
+    });
+
+});
+
+
+// Props read only  cannot be modified, state async modification this.setState
+
 
 
 // Exporting module
