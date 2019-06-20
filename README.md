@@ -46,12 +46,16 @@ node server.js
 
         * Register informations or Login
         { post; }
-        - /api/auth/register
-        - /api/auth/login
+        - /auth/register
+        - /auth/login
 
         * Go to user profile
         { get; }
-        - /api/auth/me
+        - /auth/me
+        
+        * Edit user's informations
+        { patch; }
+        - /auth/edit
 
 #### Models
 
