@@ -6,7 +6,7 @@ router.use(bodyParser.urlencoded({
     extended: true
 }));
 router.use(bodyParser.json());
-var User = require("./User");
+var User = require("./user-model");
 
 // Create a new user [Route: /api/auth/register]
 router.post("/", function (req, res) {
@@ -54,7 +54,7 @@ router.delete("/:id", function (req, res) {
         if (err) {
             return res.status(500).send("There was a problem deleting the user.");
         }
-        res.status(200).send("User: " + user.name + " was deleted.");
+        res.status(200).send(`User: ${user.name} was deleted.`);
     });
 });
 

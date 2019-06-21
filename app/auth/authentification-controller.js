@@ -9,7 +9,7 @@ var bodyParser = require("body-parser");
 // JWT Dependencies
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-var config = require("../config");
+var config = require("../../config");
 
 // Router
 router.use(bodyParser.urlencoded({
@@ -17,7 +17,7 @@ router.use(bodyParser.urlencoded({
 }));
 router.use(bodyParser.json());
 
-var User = require("../user/User");
+var User = require("../user/user-model");
 
 // Register new user
 router.post("/register", function (req, res) {
@@ -27,12 +27,13 @@ router.post("/register", function (req, res) {
 
             name: req.body.name,
             email: req.body.email,
+            surname: req.body.surname,
             password: hashedPassword
         },
         function (err, user) {
 
             if (err) {
-                return res.status(500).send("Problem registering the user.");
+                return res.status(500).send(`${err} Problem registering the user.`);
             }
 
             // Creating token
@@ -167,39 +168,37 @@ router.patch("/edit", function (req, res) {
         }
 
         if (!req.body.email) {
-            res.status(401).send({
+            return res.status(401).send({
                 message: "Unauthorized to edit without email"
             });
-        } else {
-            token = jwt.sign({
-                id: decoded.id
-            }, config.secret, {
-                expiresIn: 86400 // renew token that will expires in 24 hours
-            });
-
-            if (req.body.password) {
-                var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-                req.body.password = hashedPassword;
-            }
-
-            User.updateOne({
-                _id: decoded.id
-            }, {
-                $set: req.body
-            }, function (err) {
-                if (err) {
-                    res.send(500).send({
-                        message: "Could not update user' informations"
-                    });
-                } else {
-                    res.status(200).send({
-                        token: token,
-                        email: req.body.email
-                    });
-                }
-            });
-
         }
+        token = jwt.sign({
+            id: decoded.id
+        }, config.secret, {
+            expiresIn: 86400 // renew token that will expires in 24 hours
+        });
+
+        if (req.body.password) {
+            var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+            req.body.password = hashedPassword;
+        }
+
+        User.updateOne({
+            _id: decoded.id
+        }, {
+            $set: req.body
+        }, function (err) {
+            if (err) {
+                return res.send(500).send({
+                    message: "Could not update user' informations"
+                });
+            }
+            res.status(200).send({
+                token: token,
+                email: req.body.email
+            });
+
+        });
 
     });
 

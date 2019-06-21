@@ -5,3 +5,5 @@ npm-debug.log
 .serverless
 variables.env
 requests.http
+.eslintrc
+coverage
