@@ -32,30 +32,31 @@ Log.show = (level, message) => {
 // Error Message
 Log.e = message => {
     Log.show("error", message);
-}
+};
+
 // Warning Message
 Log.w = message => {
     Log.show("warn", message);
-}
+};
 
 // Information Message
 Log.i = message => {
     Log.show("info", message);
-}
+};
 
 // Verbose Message
 Log.v = message => {
     Log.show("verbose", message);
-}
+};
 
 // Debug Message
 Log.d = message => {
     Log.show("debug", message);
-}
+};
 
 // Silly Message
 Log.s = message => {
     Log.show("silly", message);
-}
+};
 
 module.exports = Log;
