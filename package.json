@@ -14,6 +14,9 @@
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
     "jsonwebtoken": "^8.4.0",
-    "mongoose": "^5.5.12"
+    "moment": "^2.24.0",
+    "mongoose": "^5.5.12",
+    "morgan": "^1.9.1",
+    "winston": "^2.4.4"
   }
 }
