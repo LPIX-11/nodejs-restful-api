@@ -1,4 +1,6 @@
 var mongoose = require("mongoose");
+
+// Defining users' schema
 var UserSchema = new mongoose.Schema({
   name: {
     type: String,
@@ -28,6 +30,5 @@ var UserSchema = new mongoose.Schema({
     updatedAt: "updated_at"
   }
 });
-// mongoose.model("User", UserSchema);
 
 module.exports = mongoose.model("User", UserSchema);

@@ -1,5 +1,8 @@
+require("dotenv").config();
+require("./config");
+
 const mongoose = require("mongoose");
-const uri = "mongodb://localhost:27017/androidRest";
+const uri = process.env.DATABASE_URL;
 
 const Log = require("./util/log");
 

@@ -2,8 +2,7 @@
 
 
 // Dependencies
-var express = require("express");
-var router = express.Router();
+var router = require("express").Router();
 var bodyParser = require("body-parser");
 
 // JWT Dependencies

@@ -7,3 +7,4 @@ variables.env
 requests.http
 .eslintrc
 coverage
+.env

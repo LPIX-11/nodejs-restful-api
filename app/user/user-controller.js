@@ -24,14 +24,14 @@ router.post("/", function (req, res) {
 });
 
 // Returns all users in the database [Route: /users]
-router.get("/", function (req, res) {
+exports.findAll = (req, res) => {
     User.find({}, function (err, users) {
         if (err) {
             return res.status(500).send("There was a problem finding the users.");
         }
         res.status(200).send(users);
     });
-});
+}
 
 // Return the specified user [Route: /users/:id]
 router.get("/:id", function (req, res) {

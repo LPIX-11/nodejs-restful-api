@@ -7,4 +7,4 @@ const router = require("express").Router();
 const controller = require("./user-controller");
 
 // Get all users' path
-router.get("/");
+router.get("/", controller.findAll);

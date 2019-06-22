@@ -1,19 +1,28 @@
-const express = require("express");
-const app = express();
+require("dotenv").config();
+require("./config");
+
+const app = require("express")();
+const bodyParser = require("body-parser");
+const port = process.env.PORT;
+const env = process.env.NODE_ENV;
+const baseUrl = process.env.BASE_URL + "/" + process.env.VERSION;
+
 const db = require("./db");
 
 const Log = require("./util/log");
+new Log(app);
+const log = Log;
 
-const port = process.env.PORT || 3000;
-const env = process.env.NODE_ENV;
+app.use(bodyParser.json());
 
-
-const UserController = require("./app/user/user-controller");
-app.use("/users", UserController);
+console.log(baseUrl);
+// const UserController = require("./app/user/user-controller");
+// app.use("/users", UserController);
+// app.use(baseUrl, require("./routes"));
 
 const AuthController = require("./app/auth/authentification-controller");
 app.use("/auth", AuthController);
 
-app.listen(port, () => Log.i(`Nodejs Restful API running in [${env}] on ${port}`));
+app.listen(port, () => log.i(`Nodejs Restful API running in [${env}] on ${port}`));
 
 module.exports = app;
