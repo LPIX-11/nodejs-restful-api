@@ -172,11 +172,6 @@ router.patch("/edit", function (req, res) {
                 message: "Unauthorized to edit without email"
             });
         }
-        token = jwt.sign({
-            id: decoded.id
-        }, config.secret, {
-            expiresIn: 86400 // renew token that will expires in 24 hours
-        });
 
         if (req.body.password) {
             var hashedPassword = bcrypt.hashSync(req.body.password, 8);
@@ -193,9 +188,15 @@ router.patch("/edit", function (req, res) {
                     message: "Could not update user' informations"
                 });
             }
+
+            token = jwt.sign({
+                id: decoded.id
+            }, config.secret, {
+                expiresIn: 86400 // renew token that will expires in 24 hours
+            });
+
             res.status(200).send({
-                token: token,
-                email: req.body.email
+                token: token
             });
 
         });
