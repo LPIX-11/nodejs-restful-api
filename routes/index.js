@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
         version: process.env.VERSION,
         port: process.env.PORT,
         env: process.env.NODE_ENV,
-        base_url: process.env.BASE_URL + '/' + process.env.VERSION,
+        baseUrl: process.env.BASE_URL + "/" + process.env.VERSION,
         status: "running"
     };
     result.data(data, res);

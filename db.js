@@ -20,7 +20,7 @@ const options = {
 
 mongoose.connect(uri, options).then(
     () => {
-        Log.i(`Database Running`);
+        Log.i("Database Running");
     },
     err => {
         Log.e(`Error Connecting to database\n${err}`);

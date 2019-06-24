@@ -31,7 +31,7 @@ exports.findAll = (req, res) => {
         }
         res.status(200).send(users);
     });
-}
+};
 
 // Return the specified user [Route: /users/:id]
 router.get("/:id", function (req, res) {
