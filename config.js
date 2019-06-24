@@ -1,6 +1,9 @@
-// configuration
+// JWT Secret Key Configuration
+require("dotenv").config();
+require("./config");
+
 module.exports = {
 
-    "secret": "supersecret"
+    "secret": process.env.API_JWT_USER_SECRET
 
 };

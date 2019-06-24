@@ -1,10 +1,10 @@
 require("dotenv").config();
-require("./config");
+require("../config");
 
 const mongoose = require("mongoose");
 const uri = process.env.DATABASE_URL;
 
-const Log = require("./util/log");
+const Log = require("./log");
 
 const options = {
     useNewUrlParser: true,

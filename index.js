@@ -7,7 +7,7 @@ const port = process.env.PORT;
 const env = process.env.NODE_ENV;
 const baseUrl = process.env.BASE_URL + "/" + process.env.VERSION;
 
-const db = require("./db");
+const db = require("./util/DataBaseHelper");
 
 const Log = require("./util/log");
 new Log(app);
