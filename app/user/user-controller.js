@@ -2,9 +2,13 @@ var express = require("express");
 var router = express.Router();
 var bodyParser = require("body-parser");
 
+const userDal = require("./user-dal");
+const result = require("../../util/response");
+
 router.use(bodyParser.urlencoded({
     extended: true
 }));
+
 router.use(bodyParser.json());
 var User = require("./user-model");
 
@@ -25,12 +29,16 @@ var User = require("./user-model");
 
 // Returns all users in the database [Route: /users]
 exports.findAll = (req, res) => {
-    User.find({}, function (err, users) {
-        if (err) {
-            return res.status(500).send("There was a problem finding the users.");
-        }
-        res.status(200).send(users);
-    });
+    return userDal.findAll()
+        .then(users => {
+            result.data(users, res);
+        });
+    // User.find({}, function (err, users) {
+    //     if (err) {
+    //         return res.status(500).send("There was a problem finding the users.");
+    //     }
+    //     res.status(200).send(users);
+    // });
 };
 
 // // Return the specified user [Route: /users/:id]
@@ -69,6 +77,3 @@ exports.findAll = (req, res) => {
 //         res.status(200).send(user);
 //     });
 // });
-
-
-module.exports = router;

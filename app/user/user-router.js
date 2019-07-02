@@ -8,3 +8,5 @@ const controller = require("./user-controller");
 
 // Get all users' path
 router.get("/", controller.findAll);
+
+module.exports = router;
