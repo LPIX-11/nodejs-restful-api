@@ -1,7 +1,7 @@
 "use strict";
 
 const router = require("express").Router();
-const result = require("../util/response");
+const result = require("../util/res");
 
 router.get("/", (req, res) => {
     const data = {

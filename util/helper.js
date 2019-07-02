@@ -3,8 +3,7 @@
 const Promise = require("bluebird");
 const bcrypt = require("bcryptjs");
 
-// Change respose to res {response || result } depending on situation
-const result = require("../util/response");
+const result = require("../util/res");
 
 // Validate empty fields
 exports.validateEmpty = (attr, message, reject, req) => {

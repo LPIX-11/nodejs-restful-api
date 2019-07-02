@@ -3,7 +3,7 @@ const router = express.Router();
 const bodyParser = require("body-parser");
 
 const userDal = require("./user-dal");
-const result = require("../../util/response");
+const result = require("../../util/res");
 
 router.use(bodyParser.urlencoded({
     extended: true

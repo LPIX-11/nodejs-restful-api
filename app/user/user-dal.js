@@ -1,6 +1,6 @@
 "use strict";
+// Data Access Layer File
 
-// Data Access Layer
 const User = require("./user-model");
 
 // Create a new user
