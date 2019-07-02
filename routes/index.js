@@ -1,4 +1,4 @@
-"use stric";
+"use strict";
 
 const router = require("express").Router();
 const result = require("../util/response");
@@ -9,7 +9,7 @@ router.get("/", (req, res) => {
         version: process.env.VERSION,
         port: process.env.PORT,
         env: process.env.NODE_ENV,
-        baseUrl: process.env.BASE_URL + "/" + process.env.VERSION,
+        base_url: process.env.BASE_URL + "/" + process.env.VERSION,
         status: "running"
     };
     result.data(data, res);
