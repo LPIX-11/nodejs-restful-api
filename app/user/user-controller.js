@@ -1,6 +1,6 @@
-var express = require("express");
-var router = express.Router();
-var bodyParser = require("body-parser");
+const express = require("express");
+const router = express.Router();
+const bodyParser = require("body-parser");
 
 const userDal = require("./user-dal");
 const result = require("../../util/response");
@@ -10,7 +10,6 @@ router.use(bodyParser.urlencoded({
 }));
 
 router.use(bodyParser.json());
-var User = require("./user-model");
 
 // Create a new user [Route: /api/auth/register]
 // router.post("/", function (req, res) {
