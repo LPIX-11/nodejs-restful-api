@@ -21,9 +21,7 @@ app.use(bodyParser.json());
 app.use(validator());
 app.use(bearerToken());
 
-console.log(baseUrl);
-// const UserController = require("./app/user/user-controller");
-// app.use("/users", UserController);
+// Main router
 app.use(baseUrl, require("./routes"));
 
 const AuthController = require("./app/auth/authentification-controller");

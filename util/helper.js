@@ -5,17 +5,6 @@ const bcrypt = require("bcryptjs");
 
 const result = require("../util/res");
 
-// Validate empty fields
-exports.validateEmpty = (attr, message, reject, req) => {
-    validate(attr, message, reject, req);
-};
-
-// Validate only empty fields
-exports.validateEmptyOnly = (attr, message, reject, req) => {
-    validate(attr, message, reject, req, false);
-};
-
-
 // Fields validator
 const validate = (attr, message, reject, req, trim = true) => {
     if (trim) {
@@ -25,7 +14,19 @@ const validate = (attr, message, reject, req, trim = true) => {
     }
 
     const errors = req.validationErrors();
-    if (errors) reject(result.reject(errors[0]).msg);
+    if (errors) {
+        reject(result.reject(errors[0]).msg);
+    }
+};
+
+// Validate empty fields
+exports.validateEmpty = (attr, message, reject, req) => {
+    validate(attr, message, reject, req);
+};
+
+// Validate only empty fields
+exports.validateEmptyOnly = (attr, message, reject, req) => {
+    validate(attr, message, reject, req, false);
 };
 
 // hash password

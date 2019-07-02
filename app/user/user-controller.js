@@ -40,7 +40,25 @@ exports.findAll = (req, res) => {
     // });
 };
 
-// // Return the specified user [Route: /users/:id]
+// Return the specified user [Route: /users/:id]
+exports.validateOne = (req, res, next, id) => {
+    return userDal.findOne({
+            _id: id
+        })
+        .then(user => {
+            if (!user) {
+                result.errorStatus(`User ${id} doesn't exist`, 404, res);
+            } else {
+                req.user = user;
+                next();
+            }
+        });
+};
+
+exports.findOne = (req, res) => {
+    result.data(req.user, res);
+};
+
 // router.get("/:id", function (req, res) {
 //     User.findById(req.params.id, function (err, user) {
 //         if (err) {
