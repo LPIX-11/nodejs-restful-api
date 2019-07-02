@@ -8,5 +8,4 @@ requests.http
 .eslintrc
 coverage
 .env
-example.env
 .jshintrc
