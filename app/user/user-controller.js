@@ -5,9 +5,11 @@ const bodyParser = require("body-parser");
 const userDal = require("./user-dal");
 const result = require("../../util/res");
 
-router.use(bodyParser.urlencoded({
-    extended: true
-}));
+const User = require("../user/user-model");
+
+// router.use(bodyParser.urlencoded({
+//     extended: true
+// }));
 
 router.use(bodyParser.json());
 
@@ -32,12 +34,6 @@ exports.findAll = (req, res) => {
         .then(users => {
             result.data(users, res);
         });
-    // User.find({}, function (err, users) {
-    //     if (err) {
-    //         return res.status(500).send("There was a problem finding the users.");
-    //     }
-    //     res.status(200).send(users);
-    // });
 };
 
 // Return the specified user [Route: /users/:id]
@@ -59,29 +55,41 @@ exports.findOne = (req, res) => {
     result.data(req.user, res);
 };
 
-// router.get("/:id", function (req, res) {
-//     User.findById(req.params.id, function (err, user) {
-//         if (err) {
-//             return res.status(500).send("There was a problem finding the user.");
-//         }
+// Deletes the specified user [Route: /users/:id]
+exports.validateStatusChange = (req, res, next, id) => {
+    return userDal.update(req.user, {
+        status: req.user.status
+    }).then(user => {
+        if (!user) {
+            result.errorStatus(`User ${id} doesn't exist`, 404, res);
+        } else {
+            result.messageStatus(`User ${id} status changed`, 200, res);
+            next();
+        }
+    });
+};
 
-//         if (!user) {
-//             return res.status(404).send("No user found.");
-//         }
+exports.changeStatus = (req, res) => {
+    result.data(req.user, res);
+};
 
-//         res.status(200).send(user);
-//     });
-// });
+exports.validateRemoval = (res, req, next, id) => {
+    return userDal.remove({
+        _id: id
+    }).then(user => {
+        if (!user) {
+            result.errorStatus(`User ${id} doesn't exist`, 404, res);
+        } else {
+            req.user = user;
+            // result.messageStatus(`User ${id} status changed`, 200, res);
+            next();
+        }
+    });
+};
 
-// // Deletes the specified user [Route: /users/:id]
-// router.delete("/:id", function (req, res) {
-//     User.findByIdAndRemove(req.params.id, function (err, user) {
-//         if (err) {
-//             return res.status(500).send("There was a problem deleting the user.");
-//         }
-//         res.status(200).send(`User: ${user.name} was deleted.`);
-//     });
-// });
+exports.remove = (req, res) => {
+    result.data(req, res);
+};
 
 // // Updates the specified user [Route: /users/:id]
 // router.put("/:id", function (req, res) {

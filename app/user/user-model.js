@@ -23,6 +23,10 @@ const UserSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  status: {
+    type: String,
+    required: false
   }
 }, {
   timestamps: {

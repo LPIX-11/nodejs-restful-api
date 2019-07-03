@@ -26,8 +26,10 @@ router.post("/register", function (req, res) {
 
             name: req.body.name,
             email: req.body.email,
+            username: req.body.username,
             surname: req.body.surname,
-            password: hashedPassword
+            password: hashedPassword,
+            status: req.status
         },
         function (err, user) {
 
@@ -184,7 +186,7 @@ router.patch("/edit", function (req, res) {
         }, function (err) {
             if (err) {
                 return res.send(500).send({
-                    message: "Could not update user' informations"
+                    message: "Could not update user's informations"
                 });
             }
 

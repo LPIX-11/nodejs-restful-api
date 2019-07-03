@@ -12,6 +12,8 @@ exports.update = (user, data) => {
     return user.save();
 };
 
+exports.remove = query => User.deleteOne(query).exec();
+
 // Find user
 exports.findOne = query => User.findOne(query).exec();
 
