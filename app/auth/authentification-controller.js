@@ -8,7 +8,7 @@ var bodyParser = require("body-parser");
 // JWT Dependencies
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-var config = require("../../config");
+var config = require("../../util/constants/config");
 
 // Router
 router.use(bodyParser.urlencoded({

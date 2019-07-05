@@ -2,7 +2,7 @@
     "use strict";
 
     require("dotenv").config();
-    require("./config");
+    require("./util/constants/config");
 
     const app = require("express")();
     const bodyParser = require("body-parser");
