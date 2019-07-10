@@ -44,20 +44,36 @@
     };
 
     // Deletes the specified user [Route: /users/:id]
-    exports.validateStatusChange = (req, res, next, id) => {
+    exports.validateUserUpdate = (req, res, next, id) => {
         return userDal.update(req.user, {
             status: req.user.status
         }).then(user => {
             if (!user) {
                 result.errorStatus(`User ${id} doesn't exist`, 404, res);
             } else {
-                result.messageStatus(`User ${id} status changed`, 200, res);
                 next();
             }
         });
     };
 
-    exports.changeStatus = (req, res) => {
+    exports.update = (req, res) => {
+        result.data(req.user, res);
+    };
+
+    // Deletes the specified user [Route: /users/:id]
+    exports.validatStatusUpdate = (req, res, next, id) => {
+        return userDal.updateOne(req.user, {
+            status: req.user.status
+        }).then(user => {
+            if (!user) {
+                result.errorStatus(`User ${id} doesn't exist`, 404, res);
+            } else {
+                next();
+            }
+        });
+    };
+
+    exports.updateOne = (req, res) => {
         result.data(req.user, res);
     };
 
@@ -79,15 +95,15 @@
         result.data(req, res);
     };
 
-    // // Updates the specified user [Route: /users/:id]
-    // router.put("/:id", function (req, res) {
-    //     User.findByIdAndUpdate(req.params.id, req.body, {
-    //         new: true
-    //     }, function (err, user) {
-    //         if (err) {
-    //             return res.status(500).send("There was a problem updating the user.");
-    //         }
-    //         res.status(200).send(user);
-    //     });
-    // });
+    // Updates the specified user [Route: /users/:id]
+    router.put("/:id", function (req, res) {
+        User.findByIdAndUpdate(req.params.id, req.body, {
+            new: true
+        }, function (err, user) {
+            if (err) {
+                return res.status(500).send("There was a problem updating the user.");
+            }
+            res.status(200).send(user);
+        });
+    });
 }());

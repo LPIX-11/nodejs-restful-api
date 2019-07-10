@@ -13,11 +13,15 @@
         return user.save();
     };
 
-    exports.remove = query => User.deleteOne(query).exec();
-
     // Find user
     exports.findOne = query => User.findOne(query).exec();
 
     // Select all users
     exports.findAll = query => User.find(query).exec();
+
+    // Update user
+    exports.updateOne = query => User.updateOne(query).exec();
+
+    // Activate this function if you want to be able to remove users
+    // exports.remove = query => User.deleteOne(query).exec();
 }());

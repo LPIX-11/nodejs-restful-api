@@ -14,9 +14,13 @@
     router.param("id", controller.validateOne);
     router.get("/:id", controller.findOne);
 
-    // Delete the specified user
-    router.param("id", controller.validateRemoval);
-    router.delete("/:id", controller.remove);
+    // Update specified user
+    router.param("id", controller.validatStatusUpdate);
+    router.patch("/:id", controller.updateOne);
+
+    // Activate If Yout Want To Delete the specified user
+    // router.param("id", controller.validateRemoval);
+    // router.delete("/:id", controller.remove);
     // router.patch("/:id", controller.changeStatus);
 
     module.exports = router;
