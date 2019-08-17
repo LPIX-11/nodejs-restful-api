@@ -16,6 +16,9 @@
         result.data(data, res);
     });
 
+    // Call to authentification route
+    router.use("/auth", require("../app/auth/auth-router"));
+
     // Call on users route
     router.use("/users", require("../app/user/user-router"));
 

@@ -25,9 +25,6 @@
     // Main router
     app.use(baseUrl, require("./routes"));
 
-    const AuthController = require("./app/auth/authentification-controller");
-    app.use("/auth", AuthController);
-
     app.listen(port, () => log.i(`Nodejs Restful API running in [${env}] on ${port}`));
 
     module.exports = app;
