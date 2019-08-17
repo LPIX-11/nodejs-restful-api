@@ -1,8 +1,8 @@
 (function () {
-    "use strict";
+    'use strict';
     // Data Access Layer File
 
-    const User = require("./user-model");
+    const User = require('./user-model');
 
     // Create a new user
     exports.create = data => new User(data).save();

@@ -1,10 +1,10 @@
-require("dotenv").config();
-require("../util/constants/config");
+require('dotenv').config();
+require('../util/constants/config');
 
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 const uri = process.env.DATABASE_URL;
 
-const Log = require("./log");
+const Log = require('./log');
 
 const options = {
     useNewUrlParser: true,
@@ -20,7 +20,7 @@ const options = {
 
 mongoose.connect(uri, options).then(
     () => {
-        Log.i("Database Running");
+        Log.i(`Database Running`);
     },
     err => {
         Log.e(`Error Connecting to database\n${err}`);

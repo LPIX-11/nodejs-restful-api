@@ -1,10 +1,10 @@
 (function () {
-    "use strict";
+    'use strict';
 
-    const Promise = require("bluebird");
-    const bcrypt = require("bcryptjs");
+    const Promise = require('bluebird');
+    const bcrypt = require('bcryptjs');
 
-    const result = require("../util/res");
+    const result = require('../util/res');
 
     // Fields validator
     const validate = (attr, message, reject, req, trim = true) => {
@@ -35,7 +35,7 @@
         return new Promise((resolve, reject) => {
             bcrypt.hash(password, salt, null, (err, valid) => {
                 if (err) {
-                    reject(result.reject(`Password rejected ${err}`))
+                    reject(result.reject(`Password rejected ${err}`));
                 } else {
                     resolve(valid);
                 }

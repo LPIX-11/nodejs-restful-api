@@ -1,7 +1,7 @@
 (function () {
-    "use strict";
+    'use strict';
 
-    const log = require("./log");
+    const log = require('./log');
 
     exports.data = (payload, res) => res.status(200).json(payload);
 
@@ -16,7 +16,7 @@
     exports.errorStatus = (message, status, res) => exports.send(true, message, status, res);
 
     exports.errorReject = (reject, res) =>
-        exports.send(true, reject.message || "Internal server error", reject.status || 500, res);
+        exports.send(true, reject.message || `Internal server error`, reject.status || 500, res);
 
     exports.reject = message => {
         return {

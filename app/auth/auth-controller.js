@@ -2,13 +2,13 @@
     // Authentification Controller
 
     // Dependencies
-    var router = require("express").Router();
-    var bodyParser = require("body-parser");
+    var router = require('express').Router();
+    var bodyParser = require('body-parser');
 
     // JWT Dependencies
-    var jwt = require("jsonwebtoken");
-    var bcrypt = require("bcryptjs");
-    var config = require("../../util/constants/config");
+    var jwt = require('jsonwebtoken');
+    var bcrypt = require('bcryptjs');
+    var config = require('../../util/constants/config');
 
     // Router
     router.use(bodyParser.urlencoded({
@@ -16,13 +16,13 @@
     }));
     router.use(bodyParser.json());
 
-    var User = require("../user/user-model");
+    var user = require('../user/user-model');
 
     // Register new user
     exports.register = (req, res) => {
 
         var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-        User.create({
+        user.create({
 
                 name: req.body.name,
                 email: req.body.email,
@@ -56,20 +56,20 @@
     // Sign User In
     exports.login = (req, res) => {
 
-        User.findOne({
+        user.findOne({
             email: req.body.email
         }, function (err, user) {
 
             if (err) {
-                return res.status(500).send("Error on the server.");
+                return res.status(500).send(`Error on the server.`);
             }
 
             if (!user) {
-                return res.status(404).send("No user found.");
+                return res.status(404).send(`No user found.`);
             }
 
             if (!req.body.password) {
-                res.status(500).send("No password entered.");
+                res.status(500).send(`No password entered.`);
             }
 
             var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
@@ -99,11 +99,11 @@
     // Go To User Profile Section
     exports.me = (req, res) => {
 
-        var token = req.headers["x-access-token"];
+        var token = req.headers['x-access-token'];
         if (!token) {
             return res.status(401).send({
                 auth: false,
-                message: "No token provided."
+                message: `No token provided.`
             });
         }
 
@@ -112,7 +112,7 @@
             if (err) {
                 return res.status(500).send({
                     auth: false,
-                    message: "Failed to authenticate token."
+                    message: `Failed to authenticate token.`
                 });
             }
 
@@ -121,7 +121,7 @@
             /*User.findById(decoded.id, function(err, user) {
 
             if (err) {
-                return res.status(500).send("There was problem finding the user.");
+                return res.status(500).send(`There was problem finding the user.`);
             }
 
             res.status(200).send(user);
@@ -132,12 +132,12 @@
 
             // to hide field { fieldName: 0 }
 
-            User.findById(decoded.id, {
+            user.findById(decoded.id, {
                 password: 0
             }, function (err, user) {
 
                 if (err) {
-                    return res.status(500).send("There was problem finding the user.");
+                    return res.status(500).send(`There was problem finding the user.`);
                 }
 
                 res.status(200).send(user);
@@ -150,26 +150,26 @@
 
     // Update User Informations
     exports.edit = (req, res) => {
-        var token = req.headers["x-access-token"];
+        var token = req.headers['x-access-token'];
 
         jwt.verify(token, config.secret, function (err, decoded) {
             if (!token) {
                 return res.status(401).send({
                     auth: false,
-                    message: "No token provided."
+                    message: `No token provided.`
                 });
             }
 
             if (err) {
                 return res.status(500).send({
                     auth: false,
-                    message: "Failed to authenticate token."
+                    message: `Failed to authenticate token.`
                 });
             }
 
             if (!req.body.email) {
                 return res.status(401).send({
-                    message: "Unauthorized to edit without email"
+                    message: `Unauthorized to edit without email.`
                 });
             }
 
@@ -178,14 +178,14 @@
                 req.body.password = hashedPassword;
             }
 
-            User.updateOne({
+            user.updateOne({
                 _id: decoded.id
             }, {
                 set: req.body
             }, function (err) {
                 if (err) {
                     return res.send(500).send({
-                        message: "Could not update user's informations"
+                        message: `Could not update user's informations`
                     });
                 }
 

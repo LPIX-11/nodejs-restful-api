@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 // Defining users' schema
 const UserSchema = new mongoose.Schema({
@@ -30,9 +30,9 @@ const UserSchema = new mongoose.Schema({
   }
 }, {
   timestamps: {
-    createdAt: "created_at",
-    updatedAt: "updated_at"
+    createdAt: 'created_at',
+    updatedAt: 'updated_at'
   }
 });
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model('User', UserSchema);
