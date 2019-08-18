@@ -19,7 +19,7 @@
     var user = require('../user/user-model');
 
     // JWT Sign
-    function jwt_sign(user) {
+    function jwtSign(user) {
         return jwt.sign({
             id: user._id
         }, config.secret, {
@@ -47,7 +47,7 @@
                 }
 
                 // Creating token
-                var token = jwt_sign(user);
+                var token = jwtSign(user);
 
                 res.status(200).send({
                     auth: true,
@@ -86,7 +86,7 @@
                 });
             }
 
-            var token = jwt_sign(user);
+            var token = jwtSign(user);
 
             res.status(200).send({
                 auth: true,
