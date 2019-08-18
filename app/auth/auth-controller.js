@@ -18,6 +18,15 @@
 
     var user = require('../user/user-model');
 
+    // JWT Sign
+    function jwt_sign(user) {
+        return jwt.sign({
+            id: user._id
+        }, config.secret, {
+            expiresIn: 86400 // expires in 24 hours
+        });
+    }
+
     // Register new user
     exports.register = (req, res) => {
 
@@ -38,11 +47,7 @@
                 }
 
                 // Creating token
-                var token = jwt.sign({
-                    id: user._id
-                }, config.secret, {
-                    expiresIn: 86400 // 24H
-                });
+                var token = jwt_sign(user);
 
                 res.status(200).send({
                     auth: true,
@@ -81,11 +86,7 @@
                 });
             }
 
-            var token = jwt.sign({
-                id: user._id
-            }, config.secret, {
-                expiresIn: 86400 // expires in 24 hours
-            });
+            var token = jwt_sign(user);
 
             res.status(200).send({
                 auth: true,
