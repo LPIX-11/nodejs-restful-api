@@ -3,13 +3,14 @@
 
     require('dotenv').config();
     require('./util/constants/config');
+    require('./util/DataBaseHelper');
 
     const app = require('express')();
     const bodyParser = require('body-parser');
     const port = process.env.PORT;
     const env = process.env.NODE_ENV;
-    const baseUrl = process.env.BASE_URL + '/' + process.env.VERSION;
-    const db = require('./util/DataBaseHelper');
+    const baseUrl = `${process.env.BASE_URL}/${env}/${process.env.VERSION}`;
+    
     // jwt Authentification
     const bearerToken = require('express-bearer-token');
     const validator = require('express-validator');
@@ -25,7 +26,7 @@
     // Main router
     app.use(baseUrl, require('./routes'));
 
-    app.listen(port, () => log.i(`Nodejs Restful API running in [${env}] on ${port}`));
+    app.listen(port, () => log.i(`Ciel Backend API running in [${env}] on ${port}`));
 
     module.exports = app;
 }());

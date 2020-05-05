@@ -10,7 +10,7 @@
             version: process.env.VERSION,
             port: process.env.PORT,
             env: process.env.NODE_ENV,
-            baseUrl: process.env.BASE_URL + '/' + process.env.VERSION,
+            baseUrl: `${process.env.BASE_URL}/${process.env.NODE_ENV}/${process.env.VERSION}`,
             status: 'running'
         };
         result.data(data, res);
@@ -20,7 +20,7 @@
     router.use('/auth', require('../app/auth/auth-router'));
 
     // Call on users route
-    router.use('/users', require('../app/user/user-router'));
+    router.use('/user', require('../app/user/user-router'));
 
     module.exports = router;
 }());

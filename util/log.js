@@ -30,32 +30,44 @@
         }
     };
 
-    // Error Message
+    /**
+     * Logs an Error Message on the server console
+    */
     Log.e = message => {
         Log.show('error', message);
     };
 
-    // Warning Message
+    /**
+     * Logs a Warning Message on the server console
+     */
     Log.w = message => {
         Log.show('warn', message);
     };
 
-    // Information Message
+    /**
+     * Logs an Information Message on the console
+     */
     Log.i = message => {
         Log.show('info', message);
     };
 
-    // Verbose Message
+    /**
+     * Logs an Verbosed Message on the console
+     */
     Log.v = message => {
         Log.show('verbose', message);
     };
 
-    // Debug Message
+    /**
+     * Logs a Debug Message on the server console
+     */
     Log.d = message => {
         Log.show('debug', message);
     };
 
-    // Silly Message
+    /**
+     * Use this if you want a Silly Level Message to display on the server console
+     */
     Log.s = message => {
         Log.show('silly', message);
     };

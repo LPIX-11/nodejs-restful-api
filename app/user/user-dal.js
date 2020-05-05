@@ -5,7 +5,7 @@
     const User = require('./user-model');
 
     // Create a new user
-    exports.create = data => new User(data).save();
+    exports.create = data => User(data).save();
 
     // Update user
     exports.update = (user, data) => {

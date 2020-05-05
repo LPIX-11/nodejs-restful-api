@@ -10,199 +10,208 @@
     var bcrypt = require('bcryptjs');
     var config = require('../../util/constants/config');
 
+    var authValidator = require('./auth-validator');
+    var userDal = require('../user/user-dal');
+    var utils = require('../../util/helper');
+    var result = require('../../util/res');
+
     // Router
     router.use(bodyParser.urlencoded({
         extended: false
     }));
     router.use(bodyParser.json());
 
-    var user = require('../user/user-model');
+    var User = require('../user/user-model');
 
-    // JWT Sign
-    function jwtSign(user) {
-        return jwt.sign({
-            id: user._id
-        }, config.secret, {
-            expiresIn: 86400 // expires in 24 hours
-        });
-    }
-
-    // Register new user
+    /**
+     * Register new user and automatically opens user's session
+     * @param {*} req
+     * @param {*} res
+     */
     exports.register = (req, res) => {
+        authValidator.hasSignUpFields(req).then(body => {
+            surname = body.surname;
+            name = body.name;
+            email = body.email;
+            username = body.username;
+            password = body.password;
+            status = body.status;
 
-        var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-        user.create({
-
-                name: req.body.name,
-                email: req.body.email,
-                username: req.body.username,
-                surname: req.body.surname,
-                password: hashedPassword,
-                status: req.status
-            },
-            function (err, user) {
-
-                if (err) {
-                    return res.status(500).send(`${err} Problem registering the user.`);
+            return userDal.findOne({ username });
+        })
+            .then(found => {
+                if (found) {
+                    return Promise.reject(
+                        result.reject('This username is already taken')
+                    );
                 }
 
-                // Creating token
-                var token = jwtSign(user);
+                return userDal.findOne({ email });
+            })
+            .then(found => {
+                if (found) {
+                    return Promise.reject(
+                        result.reject('This email is already taken')
+                    )
+                }
 
-                res.status(200).send({
-                    auth: true,
-                    token: token
-                });
-
-            });
-
+                return utils.generateSalt();
+            })
+            .then(salt => utils.hashPassword(password, salt))
+            .then(hashedPassword => userDal.create({
+                surname: `${surname}`,
+                name: `${name}`,
+                email: `${email}`,
+                username: `${username}`,
+                password: `${hashedPassword}`,
+                status: `${status ? status : true}`
+            })
+            )
+            .then(user => utils.jwtSign(user))
+            .then(token => {
+                result.dataStatus({ _auth: true, _token: token }, 201, res)
+            })
+            .catch((reject) => result.errorReject(reject, res));
     };
 
-    // Sign User In
+    /**
+     * Opens server session for a registered user
+     * @param {*} request
+     * @param {*} response
+     */
     exports.login = (req, res) => {
+        let password;
+        let user;
 
-        user.findOne({
-            email: req.body.email
-        }, function (err, user) {
+        authValidator.hasLoginFields(req).then(body => {
+            password = body.password;
+            var identification = body.email ? { email: body.email } : { username: body.username };
 
-            if (err) {
-                return res.status(500).send(`Error on the server.`);
-            }
+            return userDal.findOne(identification);
+        })
+            .then(found => {
+                if (!found) {
+                    return Promise.reject(
+                        result.reject('Invalid user or password.')
+                    );
+                }
 
-            if (!user) {
-                return res.status(404).send(`No user found.`);
-            }
+                user = found;
+                return utils.comparePassword(password, user.password);
+            })
+            .then(passwordIsValid => {
+                if (!passwordIsValid) {
+                    return Promise.reject(
+                        result.reject('Invalid user or password.')
+                    );
+                }
 
-            if (!req.body.password) {
-                res.status(500).send(`No password entered.`);
-            }
-
-            var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
-
-            if (!passwordIsValid) {
-                return res.status(401).send({
-                    auth: false,
-                    token: null
-                });
-            }
-
-            var token = jwtSign(user);
-
-            res.status(200).send({
-                auth: true,
-                token: token
-            });
-
-        });
+                return utils.jwtSign(user);
+            })
+            .then(token => result.data({ _auth: true, _token: token }, res))
+            .catch(reject => result.errorReject(reject, res));
 
     };
 
-    // Go To User Profile Section
+    /**
+     * Returns user according associated to given jwt token
+     * @param {*} req
+     * @param {*} res
+     */
     exports.me = (req, res) => {
 
         var token = req.headers['x-access-token'];
-        if (!token) {
-            return res.status(401).send({
-                auth: false,
-                message: `No token provided.`
-            });
-        }
 
-        jwt.verify(token, config.secret, function (err, decoded) {
+        utils.isTokenPresent(token, res);
 
-            if (err) {
-                return res.status(500).send({
-                    auth: false,
-                    message: `Failed to authenticate token.`
-                });
-            }
-
-            // Send Full Clear user informations
-
-            /*User.findById(decoded.id, function(err, user) {
-
-            if (err) {
-                return res.status(500).send(`There was problem finding the user.`);
-            }
-
-            res.status(200).send(user);
-
-            });*/
-
-            // Send Clear user informations without password
-
-            // to hide field { fieldName: 0 }
-
-            user.findById(decoded.id, {
-                password: 0
-            }, function (err, user) {
-
-                if (err) {
-                    return res.status(500).send(`There was problem finding the user.`);
+        utils.checkToken(token, config.secret)
+            .then(decoded => userDal.findOne({ _id: decoded.id }))
+            .then(found => {
+                if (!found) {
+                    result.rejectStatus('There was problem finding the user.', 500);
                 }
 
-                res.status(200).send(user);
-
-            });
-
-        });
-
+                result.data(found, res);
+            })
+            .catch((reject) => result.errorStatus(reject, 401, res));
     };
 
     // Update User Informations
     exports.edit = (req, res) => {
         var token = req.headers['x-access-token'];
+        utils.isTokenPresent(token, res);
 
-        jwt.verify(token, config.secret, function (err, decoded) {
-            if (!token) {
-                return res.status(401).send({
-                    auth: false,
-                    message: `No token provided.`
-                });
-            }
+        if (!req.body.email && !req.body.username) {
+            result.messageStatus('Unauthorized to edit without email or username.', 401, res);
+        }
 
-            if (err) {
-                return res.status(500).send({
-                    auth: false,
-                    message: `Failed to authenticate token.`
-                });
-            }
+        utils.checkToken(token, config.secret)
+        .then(decoded => userDal.findOne({ _id: decoded.id }))
+        .then(found => {
+                // var password = req.body.password;
 
-            if (!req.body.email) {
-                return res.status(401).send({
-                    message: `Unauthorized to edit without email.`
-                });
-            }
+                // if (password) {
+                //     utils.generateSalt()
+                //         .then(salt => {
+                //             return utils.hashPassword(password, salt)
+                //         })
+                //         .then(hashedPassword => {
+                //             req.body.password = hashedPassword;
+                            
+                //             userDal.updateOne({
+                //                 _id: found.id
+                //             }, {
+                //                 set: req.body
+                //             })
+                //                 .then(user => {
+                //                     return utils.jwtSign(user);
+                //                 })
+                //                 .then(token => result.data({ _auth: true, _token: token }, res))
+                //         })
+                // }
 
-            if (req.body.password) {
-                var hashedPassword = bcrypt.hashSync(req.body.password, 8);
-                req.body.password = hashedPassword;
-            }
+                // userDal.updateOne({
+                //     _id: found.id
+                // }, {
+                //     set: req.body
+                // })
 
-            user.updateOne({
-                _id: decoded.id
-            }, {
-                set: req.body
-            }, function (err) {
-                if (err) {
-                    return res.send(500).send({
-                        message: `Could not update user's informations`
-                    });
-                }
+            })
+            // .then(user => {
+            //     return utils.jwtSign(user);
+            // })
+            // .then(token => result.data({ _auth: true, _token: token }, res))
+            .catch(reject => result.errorReject(reject, res));
 
-                token = jwt.sign({
-                    id: decoded.id
-                }, config.secret, {
-                    expiresIn: 86400 // renew token that will expires in 24 hours
-                });
 
-                res.status(200).send({
-                    token: token
-                });
+        // jwt.verify(token, config.secret, (err, decoded) => {
 
-            });
 
-        });
+
+        //     User.updateOne({
+        //         _id: decoded.id
+        //     }, {
+        //         set: req.body
+        //     }, (err) => {
+        //         if (err) {
+        //             return res.send(500).send({
+        //                 message: 'Could not update user\'s informations'
+        //             });
+        //         }
+
+        //         token = jwt.sign({
+        //             id: decoded.id
+        //         }, config.secret, {
+        //             expiresIn: 86400 // renew token that will expires in 24 hours
+        //         });
+
+        //         res.status(200).send({
+        //             token: token
+        //         });
+
+        //     });
+
+        // });
 
     };
 
