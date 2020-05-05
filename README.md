@@ -1,6 +1,13 @@
-# CIEL - Backend
+# Nodejs - Restful Api
 
-# Set Up Environment
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/b8f5d81d53374fafa1fcdf4d8f28807e)](https://app.codacy.com/app/LPIX-11/nodejs-restful-api?utm_source=github.com&utm_medium=referral&utm_content=LPIX-11/nodejs-restful-api&utm_campaign=Badge_Grade_Settings)
+
+## Overview
+
+![RESTful API design with Node.js](https://cdn-images-1.medium.com/max/2000/1*jjYC9tuf4C3HkHCP5PcKTA.jpeg "RESTful API design with Node.js")
+Nodejs Restful API with jwt and mongodb Connection using mongoose.
+
+### Set Up Environment
 
 First you need to have a mongodb installation. You can refer here to install an instance:
 
@@ -12,28 +19,26 @@ Then install nodejs
 
 - [Nodejs Installation](https://nodejs.org/en/download/)
 
-After that you'll have access to npm (Nodejs Package Manager).
+After that you'll have access to yarn  (Nodejs Package Manager).
 Now you can install additionnal dependencies
 
 ```shell
 # Go inside the project
-cd ciel-backend
+cd nodejs-restful-api
 
 # Install all dependencies
 yarn
 
 # For nodejs live reload when file changes in the directory are detected install nodemon
-npm install -g nodemon
+npm  install -g nodemon
 
 # You start the api by hitting
-yarn start
+yarn
 # Or
-nodemon index.js
-# Or
-node index.js
+node server.js
 ```
 
-## Structure
+### Structure
 
     Routes
         { get; }
@@ -54,7 +59,7 @@ node index.js
         { patch; }
         - /auth/edit
 
-### Models
+#### Models
 
     User
         -_id [Generated]
@@ -64,7 +69,7 @@ node index.js
         - password
         * profile
 
-#### Usefull Tips
+##### Usefull Tips
 
 - [A guide for adding JWT token-based authentication](https://medium.com/dev-bits/a-guide-for-adding-jwt-token-based-authentication-to-your-single-page-nodejs-applications-c403f7cf04f4)
 - [Understanding JWT in Nodejs](https://www.sitepoint.com/using-json-web-tokens-node-js/)
